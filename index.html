@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="selection:bg-teal-200 selection:text-teal-900">
+    <div class="container rounded-xl shadow-2xl p-8 md:p-12 w-11/12 max-w-5xl flex flex-col md:flex-row gap-10">
+        <div class="flex-1 flex flex-col items-center justify-center text-center">
+            <h1 id="location-display" class="text-4xl md:text-6xl font-bold text-center mb-3 leading-tight">City,
+                Country</h1>
+            <p id="date-time" class="text-lg md:text-xl text-teal-200 mb-8"></p>
+
+            <div id="current-weather-display" class="flex flex-col items-center gap-5">
+                <div id="weather-icon" class="weather-icon relative"></div>
+                <p id="temperature" class="text-7xl md:text-8xl font-light leading-none">--°C</p>
+                <p id="condition" class="text-2xl md:text-3xl text-teal-200 capitalize">Loading...</p>
+                <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-6 text-left w-full max-w-sm text-lg">
+                    <p>Humidity: <span id="humidity" class="font-medium text-white">--%</span></p>
+                    <p>Wind: <span id="wind-speed" class="font-medium text-white">-- km/h</span></p>
+                    <p>Precip: <span id="precipitation" class="font-medium text-white">-- mm</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 flex flex-col justify-between pt-4 md:pt-0">
+            <div class="mb-10">
+                <label for="city-input" class="block text-teal-200 text-xl font-medium mb-3">Enter City Name:</label>
+                <div class="flex rounded-lg overflow-hidden shadow-lg">
+                    <input type="text" id="city-input" placeholder="Example: London, Kolkata"
+                        class="flex-1 p-4 bg-gray-700 bg-opacity-80 text-white placeholder-teal-200 focus:ring-4 focus:ring-teal-400 transition duration-200 text-lg">
+                    <button id="search-button"
+                        class="px-6 py-4 bg-teal-500 hover:bg-teal-600 font-semibold text-lg transition duration-200 transform hover:scale-105 shadow-md">
+                        Search
+                    </button>
+                </div>
+                <div id="suggestions-container" class="mt-2" style="position: relative;">
+                </div>
+                <p id="error-message" class="text-red-300 text-sm mt-3 hidden"></p>
+            </div>
+            <div class="flex-grow">
+                <h2 class="text-3xl font-bold mb-5">5-Day Forecast</h2>
+                <div id="forecast-container" class="space-y-4">
+                    <div class="forecast-item p-5 rounded-lg flex items-center justify-between shadow-lg">
+                        <p class="font-medium text-xl">Mon</p>
+                        <span class="text-4xl">☀️</span>
+                        <p class="text-xl">25° / 15°</p>
+                    </div>
+                    <div class="forecast-item p-5 rounded-lg flex items-center justify-between shadow-lg">
+                        <p class="font-medium text-xl">Tue</p>
+                        <span class="text-4xl">☁️</span>
+                        <p class="text-xl">22° / 12°</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

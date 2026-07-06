@@ -91,7 +91,7 @@ No build step needed — just open `weatherapp.html` directly in a browser.
 **Never commit a real API key to a public repository.** This project keeps secrets out of git via:
 
 - `config.js` holding the real key, listed in `.gitignore`
-- `config.example.js` as a placeholder template that's safe to share
+- `configexample.js` as a placeholder template that's safe to share
 
 If a real key is ever accidentally committed, treat it as compromised — regenerate it from your OpenWeatherMap account rather than just removing it from a later commit (it will still exist in git history).
 

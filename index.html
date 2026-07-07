@@ -23,9 +23,26 @@
                 <p id="temperature" class="text-7xl md:text-8xl font-light leading-none">--°C</p>
                 <p id="condition" class="text-2xl md:text-3xl text-teal-200 capitalize">Loading...</p>
                 <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-6 text-left w-full max-w-sm text-lg">
+                    <p>Feels Like: <span id="feels-like" class="font-medium text-white">--°C</span></p>
                     <p>Humidity: <span id="humidity" class="font-medium text-white">--%</span></p>
                     <p>Wind: <span id="wind-speed" class="font-medium text-white">-- km/h</span></p>
+                    <p>Direction: <span id="wind-direction" class="font-medium text-white">--</span></p>
                     <p>Precip: <span id="precipitation" class="font-medium text-white">-- mm</span></p>
+                </div>
+                <div class="sun-scale-wrapper w-full max-w-sm mt-4">
+                    <div class="sun-scale-track">
+                        <div id="sun-marker" class="sun-scale-marker">☀️</div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-sm">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-lg">🌅</span>
+                            <span id="sunrise-time" class="font-medium text-white">--:--</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span id="sunset-time" class="font-medium text-white">--:--</span>
+                            <span class="text-lg">🌇</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,6 +60,11 @@
                 <div id="suggestions-container" class="mt-2" style="position: relative;">
                 </div>
                 <p id="error-message" class="text-red-300 text-sm mt-3 hidden"></p>
+            </div>
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">24-Hour Forecast</h2>
+                <div id="hourly-container" class="hourly-scroll flex gap-4 overflow-x-auto pb-2">
+                </div>
             </div>
             <div class="flex-grow">
                 <h2 class="text-3xl font-bold mb-5">5-Day Forecast</h2>
@@ -62,7 +84,8 @@
         </div>
     </div>
     <script src="config.js"></script>
-    <script src="script.js"></script>   
+    <script src="script.js"></script>
+    
 </body>
 
 </html>

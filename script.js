@@ -3,11 +3,26 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 const GEOCODING_BASE_URL = 'https://api.openweathermap.org/geo/1.0/';
 
 let currentLocationTimezoneOffsetSeconds = 0;
+let currentSunriseUnix = null;
+let currentSunsetUnix = null;
+
+function toCityLocalDate(unixSeconds, offsetSeconds) {
+    const cancelledMs = (unixSeconds * 1000) + (new Date().getTimezoneOffset() * 60000);
+    return new Date(cancelledMs + (offsetSeconds * 1000));
+}
+
+function degreesToCompass(deg) {
+    if (deg === undefined || deg === null) return '--';
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const index = Math.round(deg / 22.5) % 16;
+    return directions[index];
+}
 
 function getWeatherIcon(iconCode) {
     if (!iconCode) return '❓';
+    const isNight = iconCode.endsWith('n');
     switch (iconCode.substring(0, 2)) {
-        case '01': return '☀️';
+        case '01': return isNight ? '🌙' : '☀️';
         case '02': return '🌤️';
         case '03': return '☁️';
         case '04': return '☁️';
@@ -20,6 +35,20 @@ function getWeatherIcon(iconCode) {
     }
 }
 
+function updateSunPosition() {
+    const marker = document.getElementById('sun-marker');
+    if (!marker || currentSunriseUnix === null || currentSunsetUnix === null) return;
+
+    const nowUnix = Date.now() / 1000;
+    const daylightSpan = currentSunsetUnix - currentSunriseUnix;
+    let percent = ((nowUnix - currentSunriseUnix) / daylightSpan) * 100;
+    const isDaytime = percent >= 0 && percent <= 100;
+    percent = Math.max(0, Math.min(100, percent));
+
+    marker.style.left = `${percent}%`;
+    marker.textContent = isDaytime ? '☀️' : '🌙';
+}
+
 function updateDateTime(offsetSeconds = 0) {
     const now = new Date();
     const utcMs = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
@@ -30,18 +59,26 @@ function updateDateTime(offsetSeconds = 0) {
 }
 
 updateDateTime(currentLocationTimezoneOffsetSeconds);
-setInterval(() => updateDateTime(currentLocationTimezoneOffsetSeconds), 60000);
+setInterval(() => {
+    updateDateTime(currentLocationTimezoneOffsetSeconds);
+    updateSunPosition();
+}, 60000);
 
 const cityInput = document.getElementById('city-input');
 const suggestionsContainer = document.getElementById('suggestions-container');
 const locationDisplay = document.getElementById('location-display');
 const weatherIcon = document.getElementById('weather-icon');
 const temperature = document.getElementById('temperature');
+const feelsLike = document.getElementById('feels-like');
 const condition = document.getElementById('condition');
 const humidity = document.getElementById('humidity');
 const windSpeed = document.getElementById('wind-speed');
+const windDirection = document.getElementById('wind-direction');
 const precipitation = document.getElementById('precipitation');
+const sunriseTime = document.getElementById('sunrise-time');
+const sunsetTime = document.getElementById('sunset-time');
 const forecastContainer = document.getElementById('forecast-container');
+const hourlyContainer = document.getElementById('hourly-container');
 const errorMessage = document.getElementById('error-message');
 
 let debounceTimeout;
@@ -120,12 +157,17 @@ async function getWeatherData(city) {
     weatherIcon.textContent = '';
     weatherIcon.className = 'weather-icon relative';
     temperature.textContent = '--°C';
+    feelsLike.textContent = '--°C';
     condition.textContent = 'Fetching data...';
     condition.classList.add('loading-text');
     humidity.textContent = '--%';
     windSpeed.textContent = '-- km/h';
+    windDirection.textContent = '--';
     precipitation.textContent = '-- mm';
+    sunriseTime.textContent = '--:--';
+    sunsetTime.textContent = '--:--';
     forecastContainer.innerHTML = '<p class="text-center text-teal-200 loading-text">Loading forecast...</p>';
+    hourlyContainer.innerHTML = '<p class="text-center text-teal-200 loading-text px-2">Loading...</p>';
     errorMessage.classList.add('hidden');
 
     try {
@@ -156,6 +198,8 @@ async function getWeatherData(city) {
         weatherIcon.className = 'weather-icon relative';
         if (iconEmoji === '☀️') {
             weatherIcon.classList.add('sunny');
+        } else if (iconEmoji === '🌙') {
+            weatherIcon.classList.add('moony');
         } else if (iconEmoji === '🌤️' || iconEmoji === '☁️') {
             weatherIcon.classList.add('cloudy');
         } else if (iconEmoji === '🌧️') {
@@ -165,14 +209,27 @@ async function getWeatherData(city) {
         }
 
         temperature.textContent = `${Math.round(currentWeatherData.main.temp)}°C`;
+        feelsLike.textContent = `${Math.round(currentWeatherData.main.feels_like)}°C`;
         condition.textContent = currentWeatherData.weather[0].description;
         humidity.textContent = `${currentWeatherData.main.humidity}%`;
         windSpeed.textContent = `${(currentWeatherData.wind.speed * 3.6).toFixed(1)} km/h`;
+        windDirection.textContent = degreesToCompass(currentWeatherData.wind.deg);
         const precipitationValue = (currentWeatherData.rain && currentWeatherData.rain['1h'] !== undefined) ? currentWeatherData.rain['1h'] :
                                  (currentWeatherData.snow && currentWeatherData.snow['1h'] !== undefined) ? currentWeatherData.snow['1h'] : 0;
         precipitation.textContent = `${precipitationValue.toFixed(1)} mm`;
 
+        const sunriseLocal = toCityLocalDate(currentWeatherData.sys.sunrise, currentWeatherData.timezone);
+        const sunsetLocal = toCityLocalDate(currentWeatherData.sys.sunset, currentWeatherData.timezone);
+        const sunTimeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+        sunriseTime.textContent = sunriseLocal.toLocaleTimeString('en-US', sunTimeOptions);
+        sunsetTime.textContent = sunsetLocal.toLocaleTimeString('en-US', sunTimeOptions);
+
+        currentSunriseUnix = currentWeatherData.sys.sunrise;
+        currentSunsetUnix = currentWeatherData.sys.sunset;
+        updateSunPosition();
+
         forecastContainer.innerHTML = '';
+        hourlyContainer.innerHTML = '';
         const dailyForecasts = {};
 
         forecastData.list.forEach(item => {
@@ -194,6 +251,33 @@ async function getWeatherData(city) {
             dailyForecasts[dateKey].conditions.push(item.weather[0].description);
             dailyForecasts[dateKey].icons.push(item.weather[0].icon);
         });
+
+        const nowReference = currentWeatherData.dt;
+        const cityOffset = currentWeatherData.timezone;
+
+        const hourlyItems = forecastData.list
+            .filter(item => item.dt >= nowReference)
+            .slice(0, 8);
+
+        if (hourlyItems.length === 0) {
+            hourlyContainer.innerHTML = '<p class="text-teal-200 text-sm px-2">No hourly data available.</p>';
+        } else {
+            hourlyItems.forEach((item, index) => {
+                const localTime = toCityLocalDate(item.dt, cityOffset);
+                const timeLabel = index === 0
+                    ? 'Now'
+                    : localTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+
+                const hourlyItem = document.createElement('div');
+                hourlyItem.className = 'hourly-item';
+                hourlyItem.innerHTML = `
+                    <p class="hourly-time">${timeLabel}</p>
+                    <span class="hourly-icon">${getWeatherIcon(item.weather[0].icon)}</span>
+                    <p class="hourly-temp">${Math.round(item.main.temp)}°</p>
+                `;
+                hourlyContainer.appendChild(hourlyItem);
+            });
+        }
 
         const forecastDays = Object.keys(dailyForecasts)
             .sort()
@@ -229,12 +313,24 @@ async function getWeatherData(city) {
         weatherIcon.textContent = '';
         weatherIcon.className = 'weather-icon relative';
         temperature.textContent = '--°C';
+        feelsLike.textContent = '--°C';
         condition.textContent = 'Error';
         condition.classList.remove('loading-text');
         humidity.textContent = '--%';
         windSpeed.textContent = '-- km/h';
+        windDirection.textContent = '--';
         precipitation.textContent = '-- mm';
+        sunriseTime.textContent = '--:--';
+        sunsetTime.textContent = '--:--';
+        currentSunriseUnix = null;
+        currentSunsetUnix = null;
+        const marker = document.getElementById('sun-marker');
+        if (marker) {
+            marker.style.left = '0%';
+            marker.textContent = '☀️';
+        }
         forecastContainer.innerHTML = '<p class="text-center text-red-300">Failed to load forecast.</p>';
+        hourlyContainer.innerHTML = '<p class="text-center text-red-300 px-2">Failed to load.</p>';
     }
 }
 

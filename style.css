@@ -8,7 +8,8 @@ body {
     color: #f8fcfb;
     padding: 1rem;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body::before {

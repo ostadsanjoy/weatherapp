@@ -1,4 +1,4 @@
-# 🌤️ Weather App
+# 🌤️ Skyview Weather
 
 A clean, responsive weather app built with vanilla HTML, CSS, and JavaScript. Search any city to see current conditions, a 5-day forecast, and local time — no framework, no build step, no backend.
 

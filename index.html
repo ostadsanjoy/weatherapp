@@ -12,15 +12,23 @@
 </head>
 
 <body class="selection:bg-teal-200 selection:text-teal-900">
-    <div class="container rounded-xl shadow-2xl p-8 md:p-12 w-11/12 max-w-5xl flex flex-col md:flex-row gap-10">
-        <div class="flex-1 flex flex-col items-center justify-center text-center">
+    <div class="w-11/12 max-w-5xl flex flex-col items-center gap-4">
+        <div id="city-tabs" class="flex flex-wrap gap-2 justify-center w-full"></div>
+        <div class="container rounded-xl shadow-2xl p-8 md:p-12 w-full min-w-0 flex flex-col md:flex-row gap-10">
+        <div class="flex-1 min-w-0 flex flex-col items-center justify-center text-center">
             <h1 id="location-display" class="text-4xl md:text-6xl font-bold text-center mb-3 leading-tight">City,
                 Country</h1>
             <p id="date-time" class="text-lg md:text-xl text-teal-200 mb-8"></p>
 
             <div id="current-weather-display" class="flex flex-col items-center gap-5">
                 <div id="weather-icon" class="weather-icon relative"></div>
-                <p id="temperature" class="text-7xl md:text-8xl font-light leading-none">--°C</p>
+                <div class="flex items-center gap-4">
+                    <p id="temperature" class="text-7xl md:text-8xl font-light leading-none">--°C</p>
+                    <div id="unit-toggle" class="unit-toggle flex flex-col rounded-lg overflow-hidden shadow-md">
+                        <button id="unit-c-btn" class="unit-toggle-btn active" data-unit="C">°C</button>
+                        <button id="unit-f-btn" class="unit-toggle-btn" data-unit="F">°F</button>
+                    </div>
+                </div>
                 <p id="condition" class="text-2xl md:text-3xl text-teal-200 capitalize">Loading...</p>
                 <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-6 text-left w-full max-w-sm text-lg">
                     <p>Feels Like: <span id="feels-like" class="font-medium text-white">--°C</span></p>
@@ -46,11 +54,11 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1 flex flex-col justify-between pt-4 md:pt-0">
+        <div class="flex-1 min-w-0 flex flex-col justify-between pt-4 md:pt-0">
             <div class="mb-10">
                 <label for="city-input" class="block text-teal-200 text-xl font-medium mb-3">Enter City Name:</label>
                 <div class="flex flex-wrap gap-3">
-                    <input type="text" id="city-input" placeholder="e.g., London, Kolkata"
+                    <input type="text" id="city-input" placeholder="e.g., London, New York"
                         class="flex-1 min-w-[10rem] p-4 rounded-xl bg-gray-700 bg-opacity-80 text-white placeholder-teal-200 focus:ring-4 focus:ring-teal-400 transition duration-200 text-lg shadow-lg">
                     <button id="search-button"
                         class="flex-shrink-0 px-4 sm:px-6 py-4 rounded-xl bg-teal-500 hover:bg-teal-600 font-semibold text-lg whitespace-nowrap transition duration-200 transform hover:scale-105 shadow-lg">
@@ -81,6 +89,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <script src="config.js"></script>

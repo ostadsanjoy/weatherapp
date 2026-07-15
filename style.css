@@ -1,15 +1,26 @@
 body {
     font-family: 'Quicksand', sans-serif;
-    background: linear-gradient(135deg, #b3d9d9, #72a6b2, #4d7a8d);
+    background: linear-gradient(135deg, #0a1628, #0f2142, #16305c);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    color: #f8fcfb;
+    color: #f5f7fb;
     padding: 1rem;
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.font-display {
+    font-family: 'Baloo 2', 'Quicksand', sans-serif;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #ffffff 0%, #ffe9a8 55%, #f5c94d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 body::before {
@@ -31,9 +42,9 @@ body::before {
 }
 
 .container {
-    background-color: rgba(26, 45, 78, 0.75);
+    background-color: rgba(8, 18, 34, 0.8);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
     z-index: 1;
 }
@@ -94,7 +105,7 @@ body::before {
 .weather-icon.rainy::after {
     content: '';
     position: absolute;
-    background-color: rgba(179, 217, 217, 0.7);
+    background-color: rgba(159, 178, 217, 0.7);
     border-radius: 50%;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
@@ -176,7 +187,7 @@ body::before {
 }
 
 .forecast-item {
-    background-color: rgba(26, 45, 78, 0.6);
+    background-color: rgba(15, 30, 55, 0.6);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
@@ -186,7 +197,7 @@ body::before {
 }
 
 input::placeholder {
-    color: #cce9ec;
+    color: #9fb2d9;
 }
 
 input, button {
@@ -195,16 +206,16 @@ input, button {
 
 input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(179, 217, 217, 0.6);
-    border-color: #8bbdc2;
+    box-shadow: 0 0 0 3px rgba(245, 201, 77, 0.5);
+    border-color: #f5c94d;
 }
 
 #search-button {
-    background-color: #5aa8b3;
+    background-color: #f5c94d;
 }
 
 #search-button:hover {
-    background-color: #4a8d97;
+    background-color: #e0af2e;
     transform: scale(1.02);
 }
 
@@ -219,7 +230,7 @@ input:focus {
 }
 
 #suggestions-container {
-    background-color: rgba(26, 45, 78, 0.95);
+    background-color: rgba(8, 18, 34, 0.97);
     border-radius: 0.5rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     max-height: 200px;
@@ -232,16 +243,16 @@ input:focus {
 .suggestion-item {
     padding: 0.75rem 1rem;
     cursor: pointer;
-    color: #f8fcfb;
+    color: #f5f7fb;
     transition: background-color 0.2s ease-in-out;
 }
 
 .suggestion-item:hover {
-    background-color: rgba(179, 217, 217, 0.2);
+    background-color: rgba(245, 201, 77, 0.15);
 }
 
 .hourly-item {
-    background-color: rgba(26, 45, 78, 0.6);
+    background-color: rgba(15, 30, 55, 0.6);
     border-radius: 0.75rem;
     padding: 1rem 0.75rem;
     min-width: 4.5rem;
@@ -261,7 +272,7 @@ input:focus {
 
 .hourly-item .hourly-time {
     font-size: 0.85rem;
-    color: #cce9ec;
+    color: #9fb2d9;
     font-weight: 600;
 }
 
@@ -276,7 +287,7 @@ input:focus {
 
 .hourly-scroll {
     scrollbar-width: thin;
-    scrollbar-color: rgba(179, 217, 217, 0.5) transparent;
+    scrollbar-color: rgba(245, 201, 77, 0.5) transparent;
 }
 
 .hourly-scroll::-webkit-scrollbar {
@@ -284,7 +295,7 @@ input:focus {
 }
 
 .hourly-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(179, 217, 217, 0.5);
+    background-color: rgba(245, 201, 77, 0.5);
     border-radius: 3px;
 }
 
@@ -297,7 +308,7 @@ input:focus {
     width: 100%;
     height: 8px;
     border-radius: 999px;
-    background: linear-gradient(90deg, #2a3f5f 0%, #f4b860 25%, #ffe8a3 50%, #f4b860 75%, #2a3f5f 100%);
+    background: linear-gradient(90deg, #0a1628 0%, #f5c94d 25%, #ffe9a8 50%, #f5c94d 75%, #0a1628 100%);
 }
 
 .sun-scale-marker {
@@ -317,22 +328,23 @@ input:focus {
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: 999px;
-    background-color: rgba(26, 45, 78, 0.6);
-    color: #cce9ec;
+    background-color: rgba(15, 30, 55, 0.6);
+    color: #9fb2d9;
     font-weight: 500;
+    font-family: 'Baloo 2', 'Quicksand', sans-serif;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .city-tab:hover {
-    background-color: rgba(26, 45, 78, 0.85);
+    background-color: rgba(15, 30, 55, 0.9);
     transform: translateY(-1px);
 }
 
 .city-tab.active {
-    background-color: #5aa8b3;
-    color: #ffffff;
+    background-color: #f5c94d;
+    color: #0a1628;
     border-color: transparent;
 }
 
@@ -350,24 +362,24 @@ input:focus {
 
 .city-tab.add-tab {
     background-color: transparent;
-    border: 1px dashed rgba(204, 233, 236, 0.5);
-    color: #cce9ec;
+    border: 1px dashed rgba(245, 201, 77, 0.5);
+    color: #f5c94d;
 }
 
 .unit-toggle-btn {
     padding: 0.35rem 0.75rem;
     font-size: 0.9rem;
     font-weight: 600;
-    background-color: rgba(26, 45, 78, 0.6);
-    color: #cce9ec;
+    background-color: rgba(15, 30, 55, 0.6);
+    color: #9fb2d9;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .unit-toggle-btn.active {
-    background-color: #5aa8b3;
-    color: #ffffff;
+    background-color: #f5c94d;
+    color: #0a1628;
 }
 
 .unit-toggle-btn:hover:not(.active) {
-    background-color: rgba(26, 45, 78, 0.85);
+    background-color: rgba(15, 30, 55, 0.9);
 }

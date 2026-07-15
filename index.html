@@ -7,29 +7,29 @@
     <title>Weather App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Baloo+2:wght@500;600;700;800&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="selection:bg-teal-200 selection:text-teal-900">
+<body class="selection:bg-[#f5c94d] selection:text-[#0a1628]">
     <div class="w-11/12 max-w-5xl flex flex-col items-center gap-4">
         <div id="city-tabs" class="flex flex-wrap gap-2 justify-center w-full"></div>
         <div class="container rounded-xl shadow-2xl p-8 md:p-12 w-full min-w-0 flex flex-col md:flex-row gap-10">
         <div class="flex-1 min-w-0 flex flex-col items-center justify-center text-center">
-            <h1 id="location-display" class="text-4xl md:text-6xl font-bold text-center mb-3 leading-tight">City,
+            <h1 id="location-display" class="font-display gradient-text text-4xl md:text-6xl font-bold text-center mb-3 leading-tight">City,
                 Country</h1>
-            <p id="date-time" class="text-lg md:text-xl text-teal-200 mb-8"></p>
+            <p id="date-time" class="text-lg md:text-xl text-[#9fb2d9] mb-8"></p>
 
             <div id="current-weather-display" class="flex flex-col items-center gap-5">
                 <div id="weather-icon" class="weather-icon relative"></div>
                 <div class="flex items-center gap-4">
-                    <p id="temperature" class="text-7xl md:text-8xl font-light leading-none">--°C</p>
+                    <p id="temperature" class="font-display text-7xl md:text-8xl font-light leading-none">--°C</p>
                     <div id="unit-toggle" class="unit-toggle flex flex-col rounded-lg overflow-hidden shadow-md">
                         <button id="unit-c-btn" class="unit-toggle-btn active" data-unit="C">°C</button>
                         <button id="unit-f-btn" class="unit-toggle-btn" data-unit="F">°F</button>
                     </div>
                 </div>
-                <p id="condition" class="text-2xl md:text-3xl text-teal-200 capitalize">Loading...</p>
+                <p id="condition" class="text-2xl md:text-3xl text-[#9fb2d9] capitalize">Loading...</p>
                 <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-6 text-left w-full max-w-sm text-lg">
                     <p>Feels Like: <span id="feels-like" class="font-medium text-white">--°C</span></p>
                     <p>Humidity: <span id="humidity" class="font-medium text-white">--%</span></p>
@@ -56,12 +56,12 @@
         </div>
         <div class="flex-1 min-w-0 flex flex-col justify-between pt-4 md:pt-0">
             <div class="mb-10">
-                <label for="city-input" class="block text-teal-200 text-xl font-medium mb-3">Enter City Name:</label>
+                <label for="city-input" class="block text-[#9fb2d9] text-xl font-medium mb-3">Enter City Name:</label>
                 <div class="flex flex-wrap gap-3">
                     <input type="text" id="city-input" placeholder="e.g., London, New York"
-                        class="flex-1 min-w-[10rem] p-4 rounded-xl bg-gray-700 bg-opacity-80 text-white placeholder-teal-200 focus:ring-4 focus:ring-teal-400 transition duration-200 text-lg shadow-lg">
+                        class="flex-1 min-w-[10rem] p-4 rounded-xl bg-[#0f2142] bg-opacity-80 text-white placeholder-[#9fb2d9] focus:ring-4 focus:ring-[#f5c94d] transition duration-200 text-lg shadow-lg">
                     <button id="search-button"
-                        class="flex-shrink-0 px-4 sm:px-6 py-4 rounded-xl bg-teal-500 hover:bg-teal-600 font-semibold text-lg whitespace-nowrap transition duration-200 transform hover:scale-105 shadow-lg">
+                        class="flex-shrink-0 px-4 sm:px-6 py-4 rounded-xl bg-[#f5c94d] hover:bg-[#e0af2e] text-[#0a1628] font-bold text-lg whitespace-nowrap transition duration-200 transform hover:scale-105 shadow-lg">
                         Search
                     </button>
                 </div>
@@ -70,12 +70,12 @@
                 <p id="error-message" class="text-red-300 text-sm mt-3 hidden"></p>
             </div>
             <div class="mb-8">
-                <h2 class="text-2xl font-bold mb-4">24-Hour Forecast</h2>
+                <h2 class="font-display text-2xl font-bold mb-4">24-Hour Forecast</h2>
                 <div id="hourly-container" class="hourly-scroll flex gap-4 overflow-x-auto pb-2">
                 </div>
             </div>
             <div class="flex-grow">
-                <h2 class="text-3xl font-bold mb-5">5-Day Forecast</h2>
+                <h2 class="font-display text-3xl font-bold mb-5">5-Day Forecast</h2>
                 <div id="forecast-container" class="space-y-4">
                     <div class="forecast-item p-5 rounded-lg flex items-center justify-between shadow-lg">
                         <p class="font-medium text-xl">Mon</p>
@@ -91,6 +91,10 @@
             </div>
         </div>
         </div>
+        <footer class="text-center text-[#9fb2d9] text-sm mt-2 mb-4">
+            <p class="font-display gradient-text text-lg font-bold tracking-wide">Skyview Weather</p>
+            <p>Made by Sanjoy Ostad</p>
+        </footer>
     </div>
     <script src="config.js"></script>
     <script src="script.js"></script>
